@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="zh-HK" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn Cantonese 廣東話 · Leveled Vocab & Duolingo Skill Path</title>
+  <meta name="description" content="Personal Cantonese study website with 2,400+ verified dictionary entries alongside a gamified Duolingo-style learning path with spaced repetition.">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Offline Preloaded Strokes & HanziWriter Library -->
+  <script src="js/lib/stroke-cache.js"></script>
+  <script src="js/lib/hanzi-writer.min.js"></script>
+
+  <!-- Leveled Vocabulary Datasets (Level 1 to 6 + Manual Slang) -->
+  <script src="js/data/level1.js"></script>
+  <script src="js/data/level2.js"></script>
+  <script src="js/data/level3.js"></script>
+  <script src="js/data/level4.js"></script>
+  <script src="js/data/level5.js"></script>
+  <script src="js/data/level6.js"></script>
+  <script src="js/data/manual-slang.js"></script>
+  <script src="js/data.js"></script>
+</head>
+<body>
+
+  <!-- Top Scroll Progress Bar -->
+  <div id="scroll-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+
+  <!-- Glass Navbar -->
+  <nav class="navbar" id="navbar">
+    <a href="#hero" class="nav-brand">
+      <span>廣東話</span>
+      <span class="badge-hk">PRO</span>
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#learn" class="nav-link active">Learn Path</a></li>
+      <li><a href="#vocab-library" class="nav-link">Vocab Library</a></li>
+      <li><a href="#basics" class="nav-link">Basics</a></li>
+      <li><a href="#jyutping" class="nav-link">Phonology</a></li>
+      <li><a href="#phrases" class="nav-link">Phrases</a></li>
+      <li><a href="#food" class="nav-link">Food & Life</a></li>
+      <li><a href="#grammar" class="nav-link">Grammar</a></li>
+      <li><a href="#slang" class="nav-link">Slang</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <!-- Nav Live XP Badge -->
+      <div class="nav-xp-badge" id="nav-xp-pill" title="Experience Points & Level (Click for Rules)">
+        <span class="nav-xp-lvl" id="nav-xp-lvl">Lv.1</span>
+        <div class="nav-xp-track"><div class="nav-xp-fill" id="nav-xp-fill" style="width: 0%;"></div></div>
+        <span class="nav-xp-val" id="nav-xp-val">0 XP</span>
+      </div>
+
+      <!-- Search Trigger Button -->
+      <button class="btn-icon" id="search-trigger-btn" title="Search Vocabulary (Ctrl+K)" aria-label="Search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+
+      <!-- Theme Switcher Button -->
+      <button class="btn-icon" id="theme-toggle-btn" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+        <!-- Sun icon (shown in dark mode) -->
+        <svg id="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <!-- Moon icon (shown in light mode) -->
+        <svg id="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+
+      <!-- Mobile Menu Toggle -->
+      <button class="mobile-nav-toggle" id="mobile-menu-toggle" aria-label="Open Navigation Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero-section" id="hero">
+    <!-- Parallax Floating Visual Cards -->
+    <div class="hero-floating-card float-1" id="float-card-1">
+      <span class="char">唔該</span>
+      <div class="info">
+        <div class="jp">m4 goi1</div>
+        <div class="en">Thank you / Excuse me</div>
+      </div>
+    </div>
+    <div class="hero-floating-card float-2" id="float-card-2">
+      <span class="char">搞掂</span>
+      <div class="info">
+        <div class="jp">gaau2 dim2</div>
+        <div class="en">All settled!</div>
+      </div>
+    </div>
+    <div class="hero-floating-card float-3" id="float-card-3">
+      <span class="char">好正</span>
+      <div class="info">
+        <div class="jp">hou2 zeng3</div>
+        <div class="en">Awesome / Superb</div>
+      </div>
+    </div>
+    <div class="hero-floating-card float-4" id="float-card-4">
+      <span class="char">屈機</span>
+      <div class="info">
+        <div class="jp">wat1 gei1</div>
+        <div class="en">Overpowered</div>
+      </div>
+    </div>
+
+    <div class="hero-content" id="hero-interactive-content">
+      <div class="hero-pill">
+        <span>🇭🇰</span>
+        <span>2,500+ Dictionary Words · Duolingo Gamified Path</span>
+      </div>
+      <h1 class="hero-title">
+        Master Everyday
+        <span class="chinese-accent">廣東話</span>
+      </h1>
+      <p class="hero-subtitle">
+        From absolute beginner phonology to fluent street slang. Powered by verified open dictionary data with an interactive gamified skill tree.
+      </p>
+      <div class="hero-actions">
+        <a href="#learn" class="btn btn-primary">Start Skill Path 🎮</a>
+        <a href="#vocab-library" class="btn btn-secondary">Explore 2,400+ Vocab 📚</a>
+      </div>
+    </div>
+
+    <!-- Scroll Cue -->
+    <a href="#learn" class="scroll-cue" aria-label="Scroll down">
+      <span>Scroll to explore</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </a>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="container">
+
+    <!-- Overall Progress Dashboard -->
+    <div class="progress-dashboard fade-in-section" id="dashboard">
+      <div class="stat-item stat-item-xp">
+        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+          <div class="stat-value" id="stat-xp">0 XP</div>
+          <span class="badge-level" id="stat-level-badge">Level 1</span>
+        </div>
+        <div class="dashboard-xp-bar">
+          <div class="dashboard-xp-fill" id="stat-xp-fill" style="width: 0%;"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-tertiary); margin-top: 5px;">
+          <span id="stat-xp-to-next">100 XP to Lv.2</span>
+          <button id="btn-show-xp-rules" class="xp-rules-link">XP Rules ℹ️</button>
+        </div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="stat-daily-goal">0 / 50</div>
+        <div class="stat-label">Daily Goal (XP)</div>
+        <div class="dashboard-xp-bar" style="margin-top: 6px;">
+          <div class="dashboard-xp-fill" id="stat-daily-fill" style="width: 0%; background: var(--accent-success);"></div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="stat-learned-count">0</div>
+        <div class="stat-label">Words Learned</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="stat-srs-due">0</div>
+        <div class="stat-label">SRS Due Today</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="stat-streak-days">1 🔥</div>
+        <div class="stat-label" id="stat-streak-bonus">Day Streak (+2 XP)</div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         PART 2: DUOLINGO-STYLE PRACTICE ("LEARN" PATH)
+         ========================================================================== -->
+    <section id="learn" class="fade-in-section">
+      <div class="section-header">
+        <span class="section-eyebrow">Gamified Learning</span>
+        <h2 class="section-title">The Cantonese Skill Tree</h2>
+        <p class="section-description">
+          A winding mastery path taking you from Day 1 greetings to pro Hong Kong slang. Complete bite-sized lessons, save hearts, and reinforce vocabulary with spaced repetition.
+        </p>
+        <div class="audio-disclaimer-banner">
+          <span>💡</span>
+          <span>Note: Browser text-to-speech (speechSynthesis) can occasionally mispronounce tones; treat audio as a helpful pronunciation guide.</span>
+        </div>
+      </div>
+
+      <div class="learn-section-container">
+        <!-- Learn Navigation Mode Tabs -->
+        <div class="learn-tabs">
+          <button class="practice-tab-btn active" id="btn-learn-path">🗺️ Skill Tree</button>
+          <button class="practice-tab-btn" id="btn-learn-srs">📦 Spaced Repetition (SRS)</button>
+          <button class="practice-tab-btn" id="btn-learn-writing">✍️ Writing Practice</button>
+        </div>
+
+        <!-- View 1: Duolingo Skill Tree Path -->
+        <div id="view-skill-path" class="learn-subview">
+          <div id="duo-units-container">
+            <!-- Units and Winding Skill Nodes Rendered Dynamically -->
+          </div>
+        </div>
+
+        <!-- View 2: Spaced Repetition Dashboard & Review -->
+        <div id="view-srs-dashboard" class="learn-subview" style="display: none;">
+          <div class="srs-dashboard-grid">
+            <!-- Leitner 4-box stage tracker -->
+            <div class="glass-card">
+              <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Leitner Mastery Boxes</h3>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">Words graduate through boxes as you answer correctly.</p>
+              
+              <div class="leitner-box-track">
+                <div class="leitner-box">
+                  <div class="box-num">BOX 1</div>
+                  <div class="box-count" id="srs-box-1-count">0</div>
+                  <div class="box-label">New</div>
+                </div>
+                <div class="leitner-box">
+                  <div class="box-num">BOX 2</div>
+                  <div class="box-count" id="srs-box-2-count">0</div>
+                  <div class="box-label">Learning</div>
+                </div>
+                <div class="leitner-box">
+                  <div class="box-num">BOX 3</div>
+                  <div class="box-count" id="srs-box-3-count">0</div>
+                  <div class="box-label">Familiar</div>
+                </div>
+                <div class="leitner-box">
+                  <div class="box-num">BOX 4</div>
+                  <div class="box-count" id="srs-box-4-count">0</div>
+                  <div class="box-label">Mastered</div>
+                </div>
+              </div>
+
+              <div style="margin-top: 1.5rem; text-align: center;">
+                <button class="btn btn-primary" id="btn-start-srs-review">
+                  ⚡ Review Words Due Today (<span id="srs-due-badge-count">0</span>)
+                </button>
+              </div>
+            </div>
+
+            <!-- Weekly Activity Chart -->
+            <div class="glass-card">
+              <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Weekly XP Activity</h3>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">XP earned over the last 7 days.</p>
+              
+              <div class="weekly-chart-bars" id="weekly-activity-chart">
+                <!-- Day bars rendered dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 3: Writing Practice Studio (Preserved) -->
+        <div id="view-writing-studio" class="learn-subview" style="display: none;">
+          <div class="writing-studio">
+            <div class="writing-mode-switcher">
+              <button class="writing-mode-btn active" id="btn-mode-stroke">1. Stroke Order Trainer</button>
+              <button class="writing-mode-btn" id="btn-mode-freedraw">2. Free Draw Canvas</button>
+              <button class="writing-mode-btn" id="btn-mode-typing">3. Jyutping Typing Drill</button>
+            </div>
+
+            <!-- Mode 1: Stroke Order Trainer -->
+            <div id="writing-submode-stroke" class="writing-submode-content">
+              <div class="stroke-trainer-layout">
+                <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.5rem;">
+                  <label for="stroke-char-select" style="font-size: 0.9rem; font-weight: 600; color: var(--text-secondary);">Select Character:</label>
+                  <select id="stroke-char-select" class="apple-input" style="padding: 6px 14px; font-size: 0.92rem;"></select>
+                </div>
+
+                <div class="hanzi-target-box" id="hanzi-writer-target"></div>
+
+                <div class="stroke-fallback-alert" id="stroke-fallback-alert" style="display: none;">
+                  <div>
+                    <strong>No Official Stroke Font Available</strong><br>
+                    Colloquial Cantonese dialect characters (like 唔, 冇, 嘅, 咗) don't have standard stroke database files.
+                  </div>
+                  <button class="btn btn-secondary" id="btn-switch-to-freedraw" style="padding: 6px 14px; font-size: 0.85rem;">
+                    Switch to Free Draw Canvas 🎨
+                  </button>
+                </div>
+
+                <div class="char-info-sub">
+                  <div class="jp" id="stroke-info-jp">hou2</div>
+                  <div class="en" id="stroke-info-en">good / very</div>
+                </div>
+
+                <div class="stroke-controls">
+                  <button class="btn btn-secondary" id="btn-watch-stroke">▶ Watch Strokes</button>
+                  <button class="btn btn-primary" id="btn-quiz-stroke">✍️ Quiz Me (Trace)</button>
+                  <button class="btn btn-secondary" id="btn-next-stroke-char">Next Character →</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mode 2: Free Draw Canvas with 田字格 -->
+            <div id="writing-submode-freedraw" class="writing-submode-content" style="display: none;">
+              <div class="free-draw-layout">
+                <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.5rem; flex-wrap: wrap; justify-content: center;">
+                  <label for="freedraw-char-select" style="font-size: 0.9rem; font-weight: 600; color: var(--text-secondary);">Target Character:</label>
+                  <select id="freedraw-char-select" class="apple-input" style="padding: 6px 14px; font-size: 0.92rem;"></select>
+                  <button class="tab-btn" id="btn-toggle-guide">Guide: ON</button>
+                </div>
+
+                <div class="canvas-container">
+                  <div class="canvas-watermark" id="canvas-watermark-char">好</div>
+                  <canvas id="tian-canvas" width="600" height="600"></canvas>
+                </div>
+
+                <div class="canvas-controls">
+                  <button class="btn btn-secondary" id="btn-undo-draw">↶ Undo</button>
+                  <button class="btn btn-secondary" id="btn-clear-draw">🗑️ Clear</button>
+                  <button class="btn btn-primary" id="btn-mastered-char">✓ Mastered this Character</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mode 3: Jyutping Typing Drill -->
+            <div id="writing-submode-typing" class="writing-submode-content" style="display: none;">
+              <div class="typing-drill-layout">
+                <p style="color: var(--text-secondary); font-size: 0.92rem;">
+                  Type the exact Jyutping romanization for the word below:
+                </p>
+
+                <div class="typing-target-char" id="typing-char-display">好</div>
+                <div style="font-size: 1.05rem; font-weight: 600; color: var(--text-secondary);" id="typing-char-meaning">Meaning: good / very</div>
+
+                <div class="typing-input-box">
+                  <input type="text" id="typing-input-field" class="apple-input" placeholder="e.g. hou2 or hou" autocomplete="off">
+                  <button class="btn btn-primary" id="typing-check-btn">Check</button>
+                </div>
+
+                <div class="typing-feedback-message" id="typing-feedback"></div>
+                <button class="btn btn-secondary" id="typing-next-btn" style="margin-top: 0.5rem;">Next Word →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         PART 1: ACCURATE LEVELED VOCABULARY LIBRARY (2,500+ WORDS)
+         ========================================================================== -->
+    <section id="vocab-library" class="fade-in-section">
+      <div class="section-header">
+        <span class="section-eyebrow">Corpus Dictionary</span>
+        <h2 class="section-title">Leveled Vocabulary Library</h2>
+        <p class="section-description">
+          Cross-checked across CC-Canto, CC-CEDICT, and Rime-Cantonese. Filter by CEFR-style levels 1–6, topics, and registers.
+        </p>
+      </div>
+
+      <!-- Library Control Toolbar -->
+      <div class="vocab-library-toolbar">
+        <!-- Level Pills Selector -->
+        <div class="vocab-level-selector" id="vocab-level-buttons">
+          <button class="level-tab-btn active" data-level="all">All Levels (2,500)</button>
+          <button class="level-tab-btn" data-level="1">L1 Beginner (420)</button>
+          <button class="level-tab-btn" data-level="2">L2 Elementary (450)</button>
+          <button class="level-tab-btn" data-level="3">L3 Intermediate (450)</button>
+          <button class="level-tab-btn" data-level="4">L4 Upper-Int (420)</button>
+          <button class="level-tab-btn" data-level="5">L5 Advanced (380)</button>
+          <button class="level-tab-btn" data-level="6">L6 Pro & Slang (385)</button>
+        </div>
+
+        <!-- Filter & Search Controls -->
+        <div class="vocab-filter-row">
+          <div class="vocab-search-box">
+            <input type="text" id="vocab-library-search" class="apple-input" placeholder="Search Hanzi, Jyutping, or English...">
+          </div>
+
+          <div class="vocab-filter-selects">
+            <select id="vocab-topic-filter" class="apple-input" style="padding: 6px 12px; font-size: 0.85rem;">
+              <option value="all">All Topics</option>
+              <option value="greetings">Greetings</option>
+              <option value="numbers">Numbers & Time</option>
+              <option value="family">Family & People</option>
+              <option value="food">Food & Dining</option>
+              <option value="colors">Colors</option>
+              <option value="days">Days & Calendar</option>
+              <option value="transport">Transport</option>
+              <option value="shopping">Shopping & Money</option>
+              <option value="weather">Weather</option>
+              <option value="body">Body & Health</option>
+              <option value="feelings">Feelings</option>
+              <option value="work">Work & Office</option>
+              <option value="school">School & Study</option>
+              <option value="travel">Travel</option>
+              <option value="idioms">成語 Idioms</option>
+              <option value="slang">Slang & Colloquial</option>
+            </select>
+
+            <select id="vocab-tag-filter" class="apple-input" style="padding: 6px 12px; font-size: 0.85rem;">
+              <option value="all">All Tags</option>
+              <option value="colloquial">Colloquial (口語)</option>
+              <option value="slang">Slang (俚語)</option>
+              <option value="formal">Formal (書面語)</option>
+              <option value="vulgar">18+ Sensitive</option>
+            </select>
+
+            <select id="vocab-sort-by" class="apple-input" style="padding: 6px 12px; font-size: 0.85rem;">
+              <option value="freq">Sort: Most Common</option>
+              <option value="level">Sort: Level (1 → 6)</option>
+              <option value="alpha">Sort: Alphabetical</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Settings toggle row -->
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem; font-size: 0.85rem; color: var(--text-secondary); border-top: 1px solid var(--border-light); padding-top: 0.8rem;">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <input type="checkbox" id="setting-include-unverified">
+            <span>Include unverified ("Needs checking") words in Learn lessons</span>
+          </label>
+          <span id="vocab-status-summary-text">Showing 2,500 words (2,364 Verified · 136 Flagged)</span>
+        </div>
+      </div>
+
+      <!-- Leveled Cards Grid -->
+      <div class="card-grid" id="vocab-library-grid">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Pagination -->
+      <div class="vocab-pagination" id="vocab-pagination-controls">
+        <button class="btn btn-secondary" id="btn-vocab-prev">← Previous Page</button>
+        <span id="vocab-page-indicator" style="font-size: 0.9rem; font-weight: 600; color: var(--text-secondary);">Page 1 of 50</span>
+        <button class="btn btn-secondary" id="btn-vocab-next">Next Page →</button>
+      </div>
+    </section>
+
+    <!-- 1. Basics: What Cantonese is, Characters, Spoken vs Written -->
+    <section id="basics" class="fade-in-section">
+      <div class="section-header">
+        <span class="section-eyebrow">Foundation</span>
+        <h2 class="section-title">The Cantonese Landscape</h2>
+        <p class="section-description">
+          Cantonese (粵語 Jyut6 jyu5) is a living classical language spoken by over 85 million people worldwide.
+        </p>
+      </div>
+
+      <div class="basics-comparison-grid">
+        <div class="glass-card comparison-card">
+          <h3><span>🗣️</span><span>A Living Classical Language</span></h3>
+          <p style="color: var(--text-secondary); line-height: 1.6;">
+            Preserves pronunciation features from Tang Dynasty Middle Chinese (-p, -t, -k stops) disappeared from Mandarin.
+          </p>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <span class="badge-tag">85M+ Native Speakers</span>
+            <span class="badge-tag">Tang Poetry Rhymes</span>
+            <span class="badge-tag">Cantopop & Cinema</span>
+          </div>
+        </div>
+
+        <div class="glass-card comparison-card">
+          <h3><span>📜</span><span>Traditional Characters (繁體字)</span></h3>
+          <p style="color: var(--text-secondary); line-height: 1.6;">
+            Hong Kong strictly preserves Traditional characters, keeping semantic radicals intact (愛 with 心, 聽 with 耳).
+          </p>
+        </div>
+
+        <div class="glass-card comparison-card" style="grid-column: 1 / -1;">
+          <h3><span>💬</span><span>Spoken Cantonese (口語) vs Formal Written (書面語)</span></h3>
+          <table class="comparison-table" style="margin-top: 0.8rem;">
+            <thead>
+              <tr><th>Spoken (口語)</th><th>Written (書面語)</th><th>Jyutping</th><th>English</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>唔係</strong></td><td>不是</td><td>m4 hai6</td><td>Is not / No</td></tr>
+              <tr><td><strong>喺邊度</strong></td><td>在哪裡</td><td>hai2 bin1 dou6</td><td>Where is it?</td></tr>
+              <tr><td><strong>睇戲</strong></td><td>看電影</td><td>tai2 hei3</td><td>Watch a movie</td></tr>
+              <tr><td><strong>食飯</strong></td><td>吃飯</td><td>sik6 faan6</td><td>Eat a meal</td></tr>
+              <tr><td><strong>佢哋</strong></td><td>他們</td><td>keoi5 dei6</td><td>They / Them</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Jyutping & Pronunciation -->
+    <section id="jyutping" class="fade-in-section">
+      <div class="section-header">
+        <span class="section-eyebrow">Phonology</span>
+        <h2 class="section-title">Jyutping & The 6 Tones</h2>
+        <p class="section-description">
+          Click any of the 6 tones below to trigger Web Audio pitch contour synthesis and pronunciation.
+        </p>
+      </div>
+
+      <div class="tones-grid" id="tones-grid-container"></div>
+
+      <div class="sound-chart-container">
+        <div class="sound-chart-tabs">
+          <button class="tab-btn active" id="tab-initials-btn">Initials (聲母 · 19)</button>
+          <button class="tab-btn" id="tab-finals-btn">Common Finals (韻母)</button>
+        </div>
+        <div class="phonology-grid" id="phonology-list"></div>
+      </div>
+    </section>
+
+    <!-- 3. Essential Phrases -->
+    <section id="phrases" class="fade-in-section">
+      <div class="section-header">
+        <span class="section-eyebrow">Communication</span>
+        <h2 class="section-title">Essential Phrases</h2>
+        <p class="section-description">
+          Master 唔該 vs 多謝, polite particles, introductions, and yes/no echoing.
+        </p>
+      </div>
+
+      <div class="sticky-comparison-banner">
+        <div class="comparison-col">
+          <h4><span>唔該 (m4 goi1)</span></h4>
+          <p style="font-weight: 600; color: var(--accent); margin-bottom: 0.6rem;">Service, Favors & Excuse Me</p>
+          <p style="font-size: 0.88rem; color: var(--text-secondary);">Used when someone opens a door, pours water, or to get someone's attention.</p>
+        </div>
+        <div class="comparison-col">
+          <h4><span>多謝 (do1 ze6)</span></h4>
+          <p style="font-weight: 600; color: var(--accent); margin-bottom: 0.6rem;">Gifts, Compliments & Red Packets</p>
+          <p style="font-size: 0.88rem; color: var(--text-secondary);">Used for physical gifts, festive red packets (利是), and heartfelt compliments.</p>
+        </div>
+      </div>
+
+      <div class="card-grid" id="phrases-grid"></div>
+    </section>
+
+    <!-- 4. Food & Daily Life -->
+    <section id="food" class="fade-in-section">
+      <div class="section-header">
+        <span class="section-eyebrow">Local Culture</span>
+        <h2 class="section-title">Food & Cha Chaan Teng Culture</h2>
+        <p class="section-description">
+          Shorthand customizations (少甜, 走冰) and the famous minibus shout "有落！".
+        </p>
+      </div>
+      <div class="card-grid" id="food-grid"></div>
+    </section>
+
+    <!-- 5. Grammar Basics -->
+    <section id="grammar" class="fade-in-section">
+      <div class="section-header">
+        <span class="section-eyebrow">Syntax & Nuance</span>
+        <h2 class="section-title">Grammar & Sentence Particles</h2>
+        <p class="section-description">Sentence final particles (啦, 喎, 啊, 嘅, 咩) and negation rules (唔 vs 冇 vs 咪).</p>
+      </div>
+      <div class="card-grid" id="particles-grid" style="margin-bottom: 2.5rem;"></div>
+      <div class="basics-comparison-grid">
+        <div class="glass-card comparison-card">
+          <h3><span>📏</span><span>Measure Words (量詞)</span></h3>
+          <div id="measure-words-container" style="display: flex; flex-direction: column; gap: 0.6rem;"></div>
+        </div>
+        <div class="glass-card comparison-card">
+          <h3><span>❌</span><span>Negation: 唔 vs 冇 vs 咪</span></h3>
+          <div id="negation-container" style="display: flex; flex-direction: column; gap: 1rem;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Slang Section (Preserved & Highlighted) -->
+    <section id="slang" class="fade-in-section" style="background: radial-gradient(circle at 50% 10%, rgba(var(--accent-rgb), 0.05) 0%, transparent 80%); border-radius: var(--radius-xl); padding: 5rem 1.5rem;">
+      <div class="section-header">
+        <span class="section-eyebrow">Street Fluency</span>
+        <h2 class="section-title">Hong Kong Slang & Street Talk</h2>
+        <p class="section-description">
+          Authentic colloquial slang cards with 18+ blur-to-reveal filters for sensitive vocabulary.
+        </p>
+      </div>
+
+      <div class="slang-filter-bar">
+        <button class="tab-btn active" data-slang-filter="all">All Slang</button>
+        <button class="tab-btn" data-slang-filter="everyday">Everyday & Compliments</button>
+        <button class="tab-btn" data-slang-filter="humor">Humor & Expressions</button>
+        <button class="tab-btn" data-slang-filter="vulgar">18+ Sensitive Street Talk</button>
+      </div>
+
+      <div class="card-grid" id="slang-grid"></div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       DUOLINGO LESSON EXERCISE RUNNER OVERLAY
+       ========================================================================== -->
+  <div class="duo-runner-overlay" id="duo-runner-overlay" role="dialog" aria-modal="true">
+    <!-- Top Header with Hearts & Progress Bar -->
+    <div class="duo-runner-header">
+      <button class="duo-runner-close-btn" id="duo-runner-close" title="Exit Lesson">✕</button>
+      
+      <div class="duo-runner-progress-bar-track">
+        <div class="duo-runner-progress-bar-fill" id="duo-progress-fill"></div>
+      </div>
+
+      <div class="duo-runner-hearts" id="duo-hearts-display">
+        <span>❤️</span><span id="duo-hearts-count">5</span>
+      </div>
+
+      <button class="duo-runner-sound-toggle" id="duo-sound-toggle" title="Toggle Sound FX">🔊</button>
+    </div>
+
+    <!-- Main Stage for Active Exercise -->
+    <div class="duo-stage-container" id="duo-stage-container">
+      <!-- Exercise content dynamically injected here -->
+    </div>
+
+    <!-- Bottom Slide-up Feedback Bar -->
+    <div class="duo-feedback-bar" id="duo-feedback-bar">
+      <div class="duo-feedback-info">
+        <div class="duo-feedback-icon" id="duo-feedback-icon">✓</div>
+        <div class="duo-feedback-text">
+          <h4 id="duo-feedback-title">Nice!</h4>
+          <p id="duo-feedback-desc"></p>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="duo-feedback-continue-btn" style="min-width: 140px;">Continue →</button>
+    </div>
+
+    <!-- Lesson Completion Overlay — "Great Job!" -->
+    <div class="duo-completion-overlay" id="duo-completion-overlay">
+      <canvas id="confetti-canvas"></canvas>
+      <div class="completion-inner" id="completion-inner">
+        <!-- Animated checkmark SVG -->
+        <div class="completion-check-ring" id="completion-check-ring">
+          <svg width="96" height="96" viewBox="0 0 96 96">
+            <circle class="check-ring-bg" cx="48" cy="48" r="42" fill="none" stroke="var(--border-light)" stroke-width="4"/>
+            <circle class="check-ring-fill" cx="48" cy="48" r="42" fill="none" stroke="var(--accent)" stroke-width="4" stroke-dasharray="264" stroke-dashoffset="264" stroke-linecap="round"/>
+            <path class="check-tick" d="M30 50 L43 63 L67 35" fill="none" stroke="var(--accent)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="60" stroke-dashoffset="60"/>
+          </svg>
+        </div>
+        <h2 class="completion-title" id="completion-title">Great job!</h2>
+        <p class="completion-subtitle" id="completion-subtitle">You crushed it! Hong Kong is one step closer.</p>
+
+        <!-- Stats cards that slide in one by one -->
+        <div class="duo-complete-stats-row" id="completion-stats-row">
+          <div class="duo-complete-stat-box stat-anim" data-delay="0">
+            <div class="duo-complete-stat-val" id="duo-complete-xp">+0</div>
+            <div class="duo-complete-stat-lbl">XP Earned</div>
+          </div>
+          <div class="duo-complete-stat-box stat-anim" data-delay="1">
+            <div class="duo-complete-stat-val" id="duo-complete-accuracy">0%</div>
+            <div class="duo-complete-stat-lbl">Accuracy</div>
+          </div>
+          <div class="duo-complete-stat-box stat-anim" data-delay="2">
+            <div class="duo-complete-stat-val" id="duo-complete-words">0</div>
+            <div class="duo-complete-stat-lbl">New Words</div>
+          </div>
+          <div class="duo-complete-stat-box stat-anim" data-delay="3">
+            <div class="duo-complete-stat-val" id="duo-complete-streak">0 🔥</div>
+            <div class="duo-complete-stat-lbl">Day Streak</div>
+          </div>
+        </div>
+
+        <!-- XP progress bar -->
+        <div class="completion-xp-bar-wrap" id="completion-xp-section">
+          <div class="completion-xp-label">
+            <span id="completion-xp-level-label">Level 1</span>
+            <span id="completion-xp-numbers">0 / 100 XP</span>
+          </div>
+          <div class="completion-xp-track">
+            <div class="completion-xp-fill" id="completion-xp-fill"></div>
+          </div>
+          <div class="completion-levelup-msg" id="completion-levelup-msg">🎉 Level Up!</div>
+        </div>
+
+        <!-- Out of hearts screen (hidden by default) -->
+        <div class="completion-hearts-dead" id="completion-hearts-dead" style="display:none;">
+          <div style="font-size: 3rem;">💔</div>
+          <h2 class="completion-title">Out of hearts!</h2>
+          <p class="completion-subtitle">Practice to earn them back, or try again.</p>
+        </div>
+
+        <div class="completion-buttons" id="completion-buttons">
+          <button class="btn btn-secondary" id="duo-complete-finish-btn">Continue</button>
+          <button class="btn btn-primary" id="duo-complete-next-btn">Next Lesson →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Search Modal Dialog -->
+  <div class="search-modal-backdrop" id="search-modal" role="dialog" aria-modal="true">
+    <div class="search-dialog">
+      <div class="search-input-header">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="global-search-input" placeholder="Search Cantonese, Jyutping, English definitions, slang..." autocomplete="off">
+        <button class="btn-icon" id="search-close-btn" title="Close Search (Esc)">✕</button>
+      </div>
+      <div class="search-results-list" id="search-results-list"></div>
+    </div>
+  </div>
+
+
+
+  <!-- XP Rules & System Modal Dialog -->
+  <div class="search-modal-backdrop" id="xp-rules-modal" role="dialog" aria-modal="true">
+    <div class="search-dialog" style="max-width: 520px; padding: 2rem;">
+      <h3 style="font-size: 1.4rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.8rem;">⚡ Real XP & Level System</h3>
+      <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.2rem; line-height: 1.5;">
+        Earn real experience points as you practice and master Cantonese:
+      </p>
+      <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.88rem; color: var(--text-primary); margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: var(--bg-secondary); border-radius: var(--radius-sm);">
+          <span>Correct Exercise Answer</span>
+          <strong style="color: var(--accent);">+10 XP</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: var(--bg-secondary); border-radius: var(--radius-sm);">
+          <span>Perfect Lesson Bonus (100% Accuracy)</span>
+          <strong style="color: var(--accent-success);">+5 XP</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: var(--bg-secondary); border-radius: var(--radius-sm);">
+          <span>Daily Streak Bonus (+2 XP / day, max +20)</span>
+          <strong style="color: #ff9500;">+2 to +20 XP</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: var(--bg-secondary); border-radius: var(--radius-sm);">
+          <span>SRS Spaced Repetition Review</span>
+          <strong style="color: #af52de;">+5 XP / review</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; padding: 8px 12px; background: var(--bg-secondary); border-radius: var(--radius-sm);">
+          <span>Unit Test-Out Pass (80%+)</span>
+          <strong style="color: #ff2d55;">+50 XP</strong>
+        </div>
+      </div>
+      <p style="font-size: 0.82rem; color: var(--text-tertiary); margin-bottom: 1.5rem; line-height: 1.5;">
+        <strong>Level Formula:</strong> Level N requires N × 100 XP to advance. Daily target: 50 XP. All stats are tracked automatically in your browser's local storage.
+      </p>
+      <div style="display: flex; justify-content: flex-end;">
+        <button class="btn btn-primary" id="xp-rules-modal-close">Got It</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Credits & Open Licenses Modal Dialog -->
+  <div class="search-modal-backdrop" id="credits-modal" role="dialog" aria-modal="true">
+    <div class="search-dialog" style="max-width: 650px; padding: 2.2rem; max-height: 85vh; overflow-y: auto;">
+      <h3 style="font-size: 1.5rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.8rem;">📜 Dataset Credits & Open Licenses</h3>
+      <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
+        This platform is built on community-driven open dictionary resources:
+      </p>
+
+      <ul style="font-size: 0.88rem; color: var(--text-primary); display: flex; flex-direction: column; gap: 1rem; padding-left: 1.2rem; line-height: 1.5;">
+        <li>
+          <strong>CC-Canto</strong>: Cantonese-English dictionary licensed under 
+          <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener" style="color: var(--accent);">CC BY-SA 3.0</a>. Initiated by Pleco Software and contributor community.
+        </li>
+        <li>
+          <strong>Words.hk (粵典)</strong>: Modern comprehensive Cantonese dictionary dataset licensed under 
+          <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" style="color: var(--accent);">CC BY 4.0</a>. Provides authentic Cantonese examples, colloquial tags, and contemporary slang.
+        </li>
+        <li>
+          <strong>CC-CEDICT</strong>: Open Chinese-English dictionary licensed under 
+          <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener" style="color: var(--accent);">CC BY-SA 4.0</a>. Maintained by MDBG.
+        </li>
+        <li>
+          <strong>Rime-Cantonese (粵語拼音輸入方案)</strong>: Open-source Cantonese phonetic dictionary licensed under 
+          <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" style="color: var(--accent);">CC BY 4.0</a>.
+        </li>
+        <li>
+          <strong>Cifu Frequency Lexicon</strong>: Hong Kong Cantonese spoken and written corpus frequency dataset based on HKCanCor and modern corpora (GPL v3).
+        </li>
+        <li>
+          <strong>Hanzi Writer</strong>: Interactive Chinese character stroke order library by Chanind, MIT License.
+        </li>
+      </ul>
+
+      <div style="display: flex; justify-content: flex-end; margin-top: 1.8rem;">
+        <button class="btn btn-primary" id="credits-modal-close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <nav class="footer-nav">
+        <a href="#learn">Learn Path</a>
+        <a href="#vocab-library">Vocab Library</a>
+        <a href="#basics">Basics</a>
+        <a href="#jyutping">Phonology</a>
+        <a href="#phrases">Phrases</a>
+        <a href="#food">Food & Life</a>
+        <a href="#grammar">Grammar</a>
+        <a href="#slang">Slang</a>
+        <a href="#" id="footer-credits-link">Credits & Licenses</a>
+      </nav>
+      <p style="margin-bottom: 0.5rem;">
+        CantoneseLearn Pro · Built strictly with vanilla HTML5, CSS3 & JavaScript · Apple typography & aesthetics.
+      </p>
+      <p style="font-size: 0.8rem; color: var(--text-tertiary);">
+        All Romanization adheres to the Linguistic Society of Hong Kong (LSHK) Jyutping standard.
+      </p>
+      <div style="margin-top: 1rem;">
+        <button id="btn-reset-progress" style="background: none; border: none; font-size: 0.78rem; color: var(--text-tertiary); cursor: pointer; text-decoration: underline;">
+          Reset Local Learning & SRS Progress
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main JavaScript App -->
+  <script src="js/main.js"></script>
+</body>
+</html>

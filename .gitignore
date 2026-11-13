@@ -1,0 +1,4 @@
+# Raw dictionary corpus files (100MB+ SQLite DB and raw source downloads)
+tools/raw/
+node_modules/
+.DS_Store
